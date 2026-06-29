@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
+import Background from "../Components/Background";
+import Nav from "../Components/Nav";
+import Footer from "../Components/Footer";
+import WhatsAppButton from "../Components/WhatsAppButton";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
@@ -27,7 +31,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}>
+        <Background />
+        <Nav />
         {children}
+        <Footer />
+        <WhatsAppButton />
       </body>
     </html>
   );

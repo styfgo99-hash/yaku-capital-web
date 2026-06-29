@@ -19,3 +19,74 @@ body {
 .font-display {
   font-family: var(--font-display), sans-serif;
 }
+
+/* Fondo animado: orbes de luz que derivan lentamente + grano de pelicula animado */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+}
+.o1 {
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(14,165,255,0.24), transparent 65%);
+  top: -200px; right: -150px;
+  animation: drift1 7s ease-in-out infinite;
+}
+.o2 {
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(111,211,255,0.18), transparent 65%);
+  bottom: 5%; left: -200px;
+  animation: drift2 8s ease-in-out infinite;
+}
+.o3 {
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(120,140,165,0.16), transparent 65%);
+  top: 55%; right: 8%;
+  animation: drift3 6s ease-in-out infinite;
+}
+
+@keyframes drift1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-180px, 140px) scale(1.15); }
+}
+@keyframes drift2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(160px, -120px) scale(1.1); }
+}
+@keyframes drift3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-150px, -160px) scale(1.18); }
+}
+
+/*
+  Grano animado real: el sprite (/grain-sprite.png) contiene 5 frames
+  de ruido distinto apilados verticalmente (180x900px, 5 frames de 180x180).
+  La animacion salta entre frames con steps(5) -- NO interpola entre ellos,
+  asi se logra el efecto "parpadeo" de grano de pelicula real en vez de un
+  desplazamiento suave.
+
+  Calibrado: overlay, 30% opacidad, 27 pasos por segundo.
+  Duracion = 5 frames / 27 fps = 0.185s por ciclo completo.
+*/
+.grain {
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url('/grain-sprite.png');
+  background-size: 180px 900px;
+  background-repeat: repeat;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  animation: grain-steps 0.185s steps(5) infinite;
+}
+
+@keyframes grain-steps {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 -900px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .o1, .o2, .o3 { animation: none; }
+  .grain { animation: none; opacity: 0.18; }
+}

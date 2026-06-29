@@ -1,18 +1,23 @@
-import Image from "next/image";
+import Hero from "../Components/Hero";
+import ExchangeStrip from "../Components/ExchangeStrip";
+import Stats from "../Components/Stats";
+import About from "../Components/About";
+import Services from "../Components/Services";
+import Who from "../Components/Who";
+import FAQ from "../Components/FAQ";
+import CTA from "../Components/CTA";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center gap-6">
-      <Image
-        src="/logo-icon-glow.webp"
-        alt="YAKU CAPITAL"
-        width={200}
-        height={200}
-        priority
-      />
-      <h1 className="font-display text-5xl font-bold text-accent">
-        YAKU CAPITAL
-      </h1>
-    </main>
+    <>
+      <Hero />
+      <ExchangeStrip />
+      <Stats />
+      <About />
+      <Services />
+      <Who />
+      <FAQ />
+      <CTA />
+    </>
   );
 }
