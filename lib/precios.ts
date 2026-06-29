@@ -1,3 +1,4 @@
+import { put, list } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import { MARGENES, type Activo } from "../config-precios";
@@ -5,43 +6,22 @@ import { MARGENES, type Activo } from "../config-precios";
 /*
   ALMACENAMIENTO DE PRECIOS
   ---------------------------
-  En PRODUCCION (Vercel): usa Edge Config, que SI persiste entre
-  despliegues y es gratuito en el plan Hobby.
+  En PRODUCCION (Vercel): usa Vercel Blob, que persiste entre despliegues
+  y es gratuito en el plan Hobby. La autenticacion se maneja automaticamente
+  via la variable BLOB_READ_WRITE_TOKEN que Vercel configura al conectar
+  el Blob store al proyecto.
 
-  En DESARROLLO LOCAL (npm run dev): usa un archivo JSON local, porque
-  conectar Edge Config requiere "vercel env pull" primero. Esto te deja
-  probar todo el flujo sin configurar nada externo todavia.
+  En DESARROLLO LOCAL (npm run dev): usa un archivo JSON local.
 
-  ----------------------------------------------------------------------
-  CONFIGURACION REQUERIDA EN VERCEL (una sola vez, deberia tomar 5 min):
-
-  1. En el dashboard de Vercel, dentro del proyecto yaku-capital-web:
-     Storage -> Create Database -> Edge Config -> nombrarlo "precios_yaku"
-
-  2. Una vez creado, conectalo al proyecto (deberia ofrecerse automatico).
-     Esto crea la variable de entorno EDGE_CONFIG.
-
-  3. En tu terminal, dentro de la carpeta del proyecto:
-       npm install @vercel/edge-config
-       vercel link
-       vercel env pull .env.local
-
-  4. Para ESCRIBIR en Edge Config necesitas tambien un token de API y el
-     ID del Edge Config (no solo la connection string de lectura).
-     Ve a: Vercel dashboard -> tu Edge Config -> Settings -> copia:
-       - EDGE_CONFIG_ID
-       - Token (crealo en Account Settings -> Tokens si no tienes uno)
-     Agrega ambos a .env.local:
-       EDGE_CONFIG_ID=ecfg_xxxxxxxx
-       VERCEL_API_TOKEN=xxxxxxxx
-
-  5. Repite el mismo .env.local en Vercel -> Settings -> Environment
-     Variables, para que funcione tambien en produccion.
-  ----------------------------------------------------------------------
+  CONFIGURACION EN VERCEL (una sola vez, ~2 minutos):
+  1. Dashboard de Vercel > tu proyecto > Storage > Create > Blob
+  2. Nómbralo "precios-yaku-blob"
+  3. Conéctalo al proyecto (Vercel agrega BLOB_READ_WRITE_TOKEN auto)
+  4. Listo — no hay tokens que copiar manualmente
 */
 
 const RUTA_ARCHIVO_LOCAL = path.join(process.cwd(), "data", "precios.json");
-const CLAVE_EDGE_CONFIG = "precios_venta";
+const NOMBRE_BLOB = "precios-venta.json";
 
 export interface PreciosVenta {
   USDT: number;
@@ -55,9 +35,11 @@ const PRECIOS_POR_DEFECTO: PreciosVenta = {
   actualizadoEn: new Date().toISOString(),
 };
 
-function usandoEdgeConfig(): boolean {
-  return Boolean(process.env.EDGE_CONFIG);
+function usandoBlob(): boolean {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
 }
+
+// --- Archivo local (desarrollo) ---
 
 async function leerDeArchivoLocal(): Promise<PreciosVenta> {
   try {
@@ -77,52 +59,39 @@ async function guardarEnArchivoLocal(datos: PreciosVenta): Promise<void> {
   );
 }
 
-async function leerDeEdgeConfig(): Promise<PreciosVenta> {
-  const { get } = await import("@vercel/edge-config");
-  const datos = await get<PreciosVenta>(CLAVE_EDGE_CONFIG);
-  return datos ?? PRECIOS_POR_DEFECTO;
-}
+// --- Vercel Blob (produccion) ---
 
-async function guardarEnEdgeConfig(datos: PreciosVenta): Promise<void> {
-  const edgeConfigId = process.env.EDGE_CONFIG_ID;
-  const apiToken = process.env.VERCEL_API_TOKEN;
-
-  if (!edgeConfigId || !apiToken) {
-    throw new Error(
-      "Faltan EDGE_CONFIG_ID o VERCEL_API_TOKEN. Revisa los pasos de " +
-        "configuracion al inicio de este archivo (lib/precios.ts)."
-    );
-  }
-
-  const respuesta = await fetch(
-    `https://api.vercel.com/v1/edge-config/${edgeConfigId}/items`,
-    {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${apiToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        items: [
-          {
-            operation: "upsert",
-            key: CLAVE_EDGE_CONFIG,
-            value: datos,
-          },
-        ],
-      }),
+async function leerDeBlob(): Promise<PreciosVenta> {
+  try {
+    const resultado = await list({ prefix: NOMBRE_BLOB });
+    if (resultado.blobs.length === 0) {
+      return PRECIOS_POR_DEFECTO;
     }
-  );
-
-  if (!respuesta.ok) {
-    const detalle = await respuesta.text();
-    throw new Error(`Error al guardar en Edge Config: ${detalle}`);
+    const ultimoBlob = resultado.blobs[0];
+    const respuesta = await fetch(ultimoBlob.url);
+    if (!respuesta.ok) {
+      return PRECIOS_POR_DEFECTO;
+    }
+    const datos = await respuesta.json();
+    return datos as PreciosVenta;
+  } catch {
+    return PRECIOS_POR_DEFECTO;
   }
 }
+
+async function guardarEnBlob(datos: PreciosVenta): Promise<void> {
+  await put(NOMBRE_BLOB, JSON.stringify(datos), {
+    access: "public",
+    addRandomSuffix: false,
+    contentType: "application/json",
+  });
+}
+
+// --- API publica ---
 
 export async function leerPrecios(): Promise<PreciosVenta> {
-  if (usandoEdgeConfig()) {
-    return leerDeEdgeConfig();
+  if (usandoBlob()) {
+    return leerDeBlob();
   }
   return leerDeArchivoLocal();
 }
@@ -137,8 +106,8 @@ export async function guardarPrecios(nuevosPrecios: {
     actualizadoEn: new Date().toISOString(),
   };
 
-  if (usandoEdgeConfig()) {
-    await guardarEnEdgeConfig(datos);
+  if (usandoBlob()) {
+    await guardarEnBlob(datos);
   } else {
     await guardarEnArchivoLocal(datos);
   }
