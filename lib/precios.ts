@@ -8,16 +8,10 @@ import { MARGENES, type Activo } from "../config-precios";
   ---------------------------
   En PRODUCCION (Vercel): usa Vercel Blob, que persiste entre despliegues
   y es gratuito en el plan Hobby. La autenticacion se maneja automaticamente
-  via la variable BLOB_READ_WRITE_TOKEN que Vercel configura al conectar
-  el Blob store al proyecto.
+  via OIDC (VERCEL_OIDC_TOKEN + BLOB_STORE_ID), que Vercel configura solo
+  al conectar el Blob store al proyecto -- no hay tokens que copiar a mano.
 
   En DESARROLLO LOCAL (npm run dev): usa un archivo JSON local.
-
-  CONFIGURACION EN VERCEL (una sola vez, ~2 minutos):
-  1. Dashboard de Vercel > tu proyecto > Storage > Create > Blob
-  2. Nómbralo "precios-yaku-blob"
-  3. Conéctalo al proyecto (Vercel agrega BLOB_READ_WRITE_TOKEN auto)
-  4. Listo — no hay tokens que copiar manualmente
 */
 
 const RUTA_ARCHIVO_LOCAL = path.join(process.cwd(), "data", "precios.json");
@@ -36,10 +30,8 @@ const PRECIOS_POR_DEFECTO: PreciosVenta = {
 };
 
 function usandoBlob(): boolean {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
 }
-
-// --- Archivo local (desarrollo) ---
 
 async function leerDeArchivoLocal(): Promise<PreciosVenta> {
   try {
@@ -58,8 +50,6 @@ async function guardarEnArchivoLocal(datos: PreciosVenta): Promise<void> {
     "utf-8"
   );
 }
-
-// --- Vercel Blob (produccion) ---
 
 async function leerDeBlob(): Promise<PreciosVenta> {
   try {
@@ -86,8 +76,6 @@ async function guardarEnBlob(datos: PreciosVenta): Promise<void> {
     contentType: "application/json",
   });
 }
-
-// --- API publica ---
 
 export async function leerPrecios(): Promise<PreciosVenta> {
   if (usandoBlob()) {
