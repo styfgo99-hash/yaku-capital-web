@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, list, get } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import { MARGENES, type Activo } from "../config-precios";
@@ -6,10 +6,14 @@ import { MARGENES, type Activo } from "../config-precios";
 /*
   ALMACENAMIENTO DE PRECIOS
   ---------------------------
-  En PRODUCCION (Vercel): usa Vercel Blob, que persiste entre despliegues
-  y es gratuito en el plan Hobby. La autenticacion se maneja automaticamente
-  via OIDC (VERCEL_OIDC_TOKEN + BLOB_STORE_ID), que Vercel configura solo
-  al conectar el Blob store al proyecto -- no hay tokens que copiar a mano.
+  En PRODUCCION (Vercel): usa Vercel Blob (store PRIVADO), con
+  autenticacion automatica via OIDC (VERCEL_OIDC_TOKEN + BLOB_STORE_ID),
+  que Vercel configura solo al conectar el Blob store al proyecto -- no
+  hay tokens que copiar a mano.
+
+  Como el store es privado, usamos get() del SDK (no fetch a una URL
+  cruda) para leer el contenido -- get() maneja la autenticacion
+  necesaria para blobs privados.
 
   En DESARROLLO LOCAL (npm run dev): usa un archivo JSON local.
 */
@@ -30,7 +34,9 @@ const PRECIOS_POR_DEFECTO: PreciosVenta = {
 };
 
 function usandoBlob(): boolean {
-  return Boolean(process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN);
+  return Boolean(
+    process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN
+  );
 }
 
 async function leerDeArchivoLocal(): Promise<PreciosVenta> {
@@ -53,17 +59,17 @@ async function guardarEnArchivoLocal(datos: PreciosVenta): Promise<void> {
 
 async function leerDeBlob(): Promise<PreciosVenta> {
   try {
-    const resultado = await list({ prefix: NOMBRE_BLOB });
-    if (resultado.blobs.length === 0) {
+    const existe = await list({ prefix: NOMBRE_BLOB, limit: 1 });
+    if (existe.blobs.length === 0) {
       return PRECIOS_POR_DEFECTO;
     }
-    const ultimoBlob = resultado.blobs[0];
-    const respuesta = await fetch(ultimoBlob.url);
-    if (!respuesta.ok) {
+
+    const respuesta = await get(NOMBRE_BLOB, { access: "private" });
+    if (!respuesta || respuesta.statusCode !== 200) {
       return PRECIOS_POR_DEFECTO;
     }
-    const datos = await respuesta.json();
-    return datos as PreciosVenta;
+    const texto = await new Response(respuesta.stream).text();
+    return JSON.parse(texto) as PreciosVenta;
   } catch {
     return PRECIOS_POR_DEFECTO;
   }
@@ -71,8 +77,9 @@ async function leerDeBlob(): Promise<PreciosVenta> {
 
 async function guardarEnBlob(datos: PreciosVenta): Promise<void> {
   await put(NOMBRE_BLOB, JSON.stringify(datos), {
-    access: "public",
+    access: "private",
     addRandomSuffix: false,
+    allowOverwrite: true,
     contentType: "application/json",
   });
 }
