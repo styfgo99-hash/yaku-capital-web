@@ -50,8 +50,8 @@ export default function Footer() {
             <div>
               <p className="font-display text-[0.6rem] font-semibold tracking-wide text-text uppercase mb-4">Contáctanos</p>
               <ul className="flex flex-col gap-2.5 list-none">
-                <li><a href="https://wa.me/51999999999" target="_blank" rel="noopener noreferrer" className="text-xs text-muted hover:text-text transition-colors">WhatsApp</a></li>
-                <li><a href="mailto:contacto@yakugroup.com.pe" className="text-xs text-muted hover:text-text transition-colors">contacto@yakugroup.com.pe</a></li>
+                <li><a href="https://wa.me/51936004984" target="_blank" rel="noopener noreferrer" className="text-xs text-muted hover:text-text transition-colors">WhatsApp</a></li>
+                <li><a href="mailto:contacto@yakucapital.com" className="text-xs text-muted hover:text-text transition-colors">contacto@yakucapital.com</a></li>
                 <li><span className="text-xs text-muted">Av. Militar N.° 1727, Lince, Lima</span></li>
               </ul>
             </div>
