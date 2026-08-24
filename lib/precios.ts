@@ -3,21 +3,6 @@ import { promises as fs } from "fs";
 import path from "path";
 import { MARGENES, type Activo } from "../config-precios";
 
-/*
-  ALMACENAMIENTO DE PRECIOS
-  ---------------------------
-  En PRODUCCION (Vercel): usa Vercel Blob (store PRIVADO), con
-  autenticacion automatica via OIDC (VERCEL_OIDC_TOKEN + BLOB_STORE_ID),
-  que Vercel configura solo al conectar el Blob store al proyecto -- no
-  hay tokens que copiar a mano.
-
-  Como el store es privado, usamos get() del SDK (no fetch a una URL
-  cruda) para leer el contenido -- get() maneja la autenticacion
-  necesaria para blobs privados.
-
-  En DESARROLLO LOCAL (npm run dev): usa un archivo JSON local.
-*/
-
 const RUTA_ARCHIVO_LOCAL = path.join(process.cwd(), "data", "precios.json");
 const NOMBRE_BLOB = "precios-venta.json";
 
@@ -67,7 +52,12 @@ async function leerDeBlob(): Promise<PreciosVenta> {
       return PRECIOS_POR_DEFECTO;
     }
     const texto = await new Response(respuesta.stream).text();
-    return JSON.parse(texto) as PreciosVenta;
+    const datos = JSON.parse(texto);
+    // Si el JSON guardado tiene la estructura vieja (USDT/USDC), usar defaults
+    if (!datos.USD) {
+      return PRECIOS_POR_DEFECTO;
+    }
+    return datos as PreciosVenta;
   } catch {
     return PRECIOS_POR_DEFECTO;
   }
@@ -79,6 +69,7 @@ async function guardarEnBlob(datos: PreciosVenta): Promise<void> {
     addRandomSuffix: false,
     allowOverwrite: true,
     contentType: "application/json",
+    cacheControlMaxAge: 60,
   });
 }
 
