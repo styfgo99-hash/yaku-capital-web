@@ -13,8 +13,7 @@
 */
 
 export const MARGENES = {
-  USDT: 0.035,
-  USDC: 0.05,
+  USD: 0.035,
 } as const;
 
 export type Activo = keyof typeof MARGENES;

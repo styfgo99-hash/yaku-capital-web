@@ -22,14 +22,12 @@ const RUTA_ARCHIVO_LOCAL = path.join(process.cwd(), "data", "precios.json");
 const NOMBRE_BLOB = "precios-venta.json";
 
 export interface PreciosVenta {
-  USDT: number;
-  USDC: number;
+  USD: number;
   actualizadoEn: string;
 }
 
 const PRECIOS_POR_DEFECTO: PreciosVenta = {
-  USDT: 3.34,
-  USDC: 3.34,
+  USD: 3.34,
   actualizadoEn: new Date().toISOString(),
 };
 
@@ -92,12 +90,10 @@ export async function leerPrecios(): Promise<PreciosVenta> {
 }
 
 export async function guardarPrecios(nuevosPrecios: {
-  USDT: number;
-  USDC: number;
+  USD: number;
 }): Promise<PreciosVenta> {
   const datos: PreciosVenta = {
-    USDT: nuevosPrecios.USDT,
-    USDC: nuevosPrecios.USDC,
+    USD: nuevosPrecios.USD,
     actualizadoEn: new Date().toISOString(),
   };
 

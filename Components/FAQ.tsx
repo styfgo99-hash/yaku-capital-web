@@ -10,19 +10,19 @@ interface FAQItemData {
 const faqs: FAQItemData[] = [
   {
     question: "¿Qué es YAKU CAPITAL?",
-    answer: "Somos un Proveedor de Servicios de Activos Virtuales (PSAV) registrado ante la SBS, especializado en la compra, venta y conversión de criptomonedas (USDT y USDC) a soles y dólares, y viceversa.",
+    answer: "Somos una casa de cambio online especializada en la compra y venta de dólares (USD/PEN), con el mejor tipo de cambio y atención inmediata.",
   },
   {
     question: "¿Están autorizados para operar en Perú?",
-    answer: "Sí. Estamos inscritos en el Registro de la SBS bajo el N.° 02914-2025, conforme a la Ley N.° 27693 y su reglamento.",
+    answer: "Sí. Estamos regulados por la Superintendencia de Banca, Seguros y AFP (SBS) bajo el N.° 02914-2025.",
   },
   {
-    question: "¿En qué plataformas operan?",
-    answer: "Operamos a través de Binance, OKX, Bybit y Bitget, integrados con BCP, BBVA, Interbank, Yape, Plin y Ligo.",
+    question: "¿Cómo funciona el proceso?",
+    answer: "Cotizas el monto en nuestra página, confirmas la operación y realizas el pago vía transferencia bancaria (BCP, BBVA, Interbank) o billetera digital (Yape, Plin, Ligo). Nosotros procesamos el cambio y te transferimos el monto acordado.",
   },
   {
     question: "¿Cómo se calcula el tipo de cambio?",
-    answer: "El cotizador de nuestra página muestra el precio de compra y venta vigente para USDT y USDC. El monto que ves se actualiza con cada cambio de precio y es el que se aplica al momento de confirmar tu operación.",
+    answer: "El cotizador de nuestra página muestra el precio de compra y venta vigente para el dólar. El monto que ves se actualiza con cada cambio de precio y es el que se aplica al momento de confirmar tu operación.",
   },
   {
     question: "¿Hay un monto mínimo o máximo por operación?",
@@ -30,7 +30,11 @@ const faqs: FAQItemData[] = [
   },
   {
     question: "¿Cuánto tiempo toma una operación?",
-    answer: "La mayoría de operaciones P2P se completan en menos de 15 minutos, dependiendo del método de pago y el monto.",
+    answer: "La mayoría de operaciones se completan en menos de 15 minutos, dependiendo del método de pago y el monto.",
+  },
+  {
+    question: "¿Cómo recibo mis dólares?",
+    answer: "Una vez confirmada la operación, transferimos tus dólares directamente a tu cuenta bancaria en el banco de tu preferencia (BCP, BBVA o Interbank).",
   },
   {
     question: "¿Qué documentos necesito para operar?",

@@ -19,8 +19,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "YAKU CAPITAL — Liquidez Digital",
-  description: "Proveedor de Servicios de Activos Virtuales en Lima, Perú. Compra y vende USDT y USDC de forma rápida, segura y al mejor precio del mercado.",
+  title: "YAKU CAPITAL — Casa de Cambio Online",
+  description: "Compra y vende dólares de forma rápida, segura y al mejor tipo de cambio. Casa de cambio online regulada en Lima, Perú.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

@@ -6,7 +6,7 @@ interface Profile {
 const profiles: Profile[] = [
   {
     title: "Retail",
-    description: "Personas que buscan proteger sus ahorros en dólares y operar con criptomonedas de forma simple y segura.",
+    description: "Personas que buscan proteger sus ahorros en dólares y cambiar sus soles de forma simple y segura.",
   },
   {
     title: "Traders",
@@ -18,7 +18,7 @@ const profiles: Profile[] = [
   },
   {
     title: "Corporativos",
-    description: "Organizaciones que buscan dolarizarse estratégicamente o integrar activos digitales en su estructura financiera.",
+    description: "Organizaciones que buscan dolarizarse estratégicamente e integrar el manejo de dólares en su estructura financiera.",
   },
 ];
 

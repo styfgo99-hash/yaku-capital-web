@@ -9,25 +9,26 @@ interface DatosPrecio {
 
 interface Props {
   datos: {
-    USDT: DatosPrecio;
-    USDC: DatosPrecio;
+    USD: DatosPrecio;
   };
 }
 
-type Activo = "USDT" | "USDC";
 type Operacion = "comprar" | "vender";
 
 export default function CotizadorWidget({ datos }: Props) {
-  const [activo, setActivo] = useState<Activo>("USDT");
   const [operacion, setOperacion] = useState<Operacion>("comprar");
-  const [montoSoles, setMontoSoles] = useState("100");
+  const [monto, setMonto] = useState("100");
 
   const precioActual =
-    operacion === "comprar" ? datos[activo].venta : datos[activo].compra;
+    operacion === "comprar" ? datos.USD.venta : datos.USD.compra;
 
-  const monto = Number(montoSoles);
+  const montoNum = Number(monto);
   const resultado =
-    Number.isFinite(monto) && monto > 0 ? (monto / precioActual).toFixed(2) : "0.00";
+    Number.isFinite(montoNum) && montoNum > 0
+      ? operacion === "comprar"
+        ? (montoNum / precioActual).toFixed(2)
+        : (montoNum * precioActual).toFixed(2)
+      : "0.00";
 
   return (
     <div
@@ -50,38 +51,11 @@ export default function CotizadorWidget({ datos }: Props) {
         Cotizador
       </h3>
 
-      <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
-        {(["USDT", "USDC"] as Activo[]).map((opcion) => (
-          <button
-            key={opcion}
-            type="button"
-            onClick={() => setActivo(opcion)}
-            style={{
-              flex: 1,
-              padding: "0.5rem",
-              borderRadius: "8px",
-              border:
-                activo === opcion
-                  ? "1px solid var(--color-accent)"
-                  : "1px solid rgba(255,255,255,0.12)",
-              background:
-                activo === opcion ? "rgba(14,165,255,0.12)" : "transparent",
-              color:
-                activo === opcion ? "var(--color-accent)" : "var(--color-muted)",
-              cursor: "pointer",
-              fontWeight: 600,
-            }}
-          >
-            {opcion}
-          </button>
-        ))}
-      </div>
-
       <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1.2rem" }}>
         {(
           [
-            { valor: "comprar" as Operacion, etiqueta: "Quiero comprar" },
-            { valor: "vender" as Operacion, etiqueta: "Quiero vender" },
+            { valor: "comprar" as Operacion, etiqueta: "Comprar dólares" },
+            { valor: "vender" as Operacion, etiqueta: "Vender dólares" },
           ]
         ).map((opcion) => (
           <button
@@ -114,17 +88,17 @@ export default function CotizadorWidget({ datos }: Props) {
       </div>
 
       <label
-        htmlFor="monto-soles"
+        htmlFor="monto"
         style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}
       >
-        {operacion === "comprar" ? "Pagas (soles)" : "Recibes (soles)"}
+        {operacion === "comprar" ? "Pagas — Soles (PEN)" : "Entregas — Dólares (USD)"}
       </label>
       <input
-        id="monto-soles"
+        id="monto"
         type="number"
         min="0"
-        value={montoSoles}
-        onChange={(evento) => setMontoSoles(evento.target.value)}
+        value={monto}
+        onChange={(evento) => setMonto(evento.target.value)}
         style={{
           width: "100%",
           marginTop: "0.3rem",
@@ -150,7 +124,7 @@ export default function CotizadorWidget({ datos }: Props) {
         }}
       >
         <span style={{ fontSize: "0.85rem", color: "var(--color-muted)" }}>
-          {operacion === "comprar" ? "Recibes" : "Entregas"}
+          {operacion === "comprar" ? "Recibes — Dólares (USD)" : "Recibes — Soles (PEN)"}
         </span>
         <span
           style={{
@@ -159,7 +133,7 @@ export default function CotizadorWidget({ datos }: Props) {
             color: "var(--color-accent-light)",
           }}
         >
-          {resultado} {activo}
+          {operacion === "comprar" ? "$" : "S/"} {resultado}
         </span>
       </div>
 
@@ -171,7 +145,7 @@ export default function CotizadorWidget({ datos }: Props) {
           textAlign: "center",
         }}
       >
-        Tipo de cambio: {precioActual.toFixed(3)} PEN por {activo}
+        Tipo de cambio: S/ {precioActual.toFixed(3)} por dólar
       </p>
     </div>
   );

@@ -3,10 +3,10 @@ export default function Stats() {
     <div className="grid sm:grid-cols-3 border-b border-white/[0.07]">
       <div className="px-6 md:px-16 py-12 border-b sm:border-b-0 sm:border-r border-white/[0.07]">
         <div className="font-display text-4xl font-bold mb-1">
-          USDT<span className="text-accent"> / PEN</span>
+          USD<span className="text-accent"> / PEN</span>
         </div>
         <div className="font-display text-xs font-medium tracking-wide text-muted uppercase">
-          Activos disponibles
+          Par de monedas
         </div>
       </div>
       <div className="px-6 md:px-16 py-12 border-b sm:border-b-0 sm:border-r border-white/[0.07]">

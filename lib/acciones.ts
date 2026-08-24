@@ -41,21 +41,16 @@ export async function accionGuardarPrecios(
   _estadoPrevio: { error?: string; exito?: boolean } | undefined,
   formData: FormData
 ): Promise<{ error?: string; exito?: boolean }> {
-  const usdtTexto = formData.get("usdt");
-  const usdcTexto = formData.get("usdc");
+  const usdTexto = formData.get("usd");
 
-  const usdt = Number(usdtTexto);
-  const usdc = Number(usdcTexto);
+  const usd = Number(usdTexto);
 
-  if (!Number.isFinite(usdt) || usdt <= 0) {
-    return { error: "El precio de USDT no es un numero valido." };
-  }
-  if (!Number.isFinite(usdc) || usdc <= 0) {
-    return { error: "El precio de USDC no es un numero valido." };
+  if (!Number.isFinite(usd) || usd <= 0) {
+    return { error: "El precio del dolar no es un numero valido." };
   }
 
   try {
-    await guardarPrecios({ USDT: usdt, USDC: usdc });
+    await guardarPrecios({ USD: usd });
   } catch (error) {
     const mensaje =
       error instanceof Error ? error.message : "Error desconocido al guardar.";

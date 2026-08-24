@@ -77,7 +77,7 @@ export default function Footer() {
 
         <div className="border-t border-white/[0.07] pt-8 flex flex-col gap-4">
           <p className="text-[0.68rem] text-muted/70 leading-relaxed text-justify">
-            YAKU CAPITAL GROUP S.A.C. se encuentra inscrita en el Registro de Proveedores de Servicios de Activos Virtuales de la Superintendencia de Banca, Seguros y AFP (SBS) bajo el N.° 02914-2025, conforme a la Ley N.° 27693 y su reglamento. Esta inscripción no implica aprobación, verificación, ni supervisión por parte de la SBS sobre las actividades comerciales del PSAV.
+            YAKU CAPITAL GROUP S.A.C. se encuentra inscrita en el Registro de la Superintendencia de Banca, Seguros y AFP (SBS) bajo el N.° 02914-2025. Esta inscripción no implica aprobación, verificación, ni supervisión por parte de la SBS sobre las actividades comerciales de la empresa.
           </p>
           <p className="font-display text-[0.56rem] tracking-wide text-muted uppercase text-center">
             © 2026 YAKU CAPITAL GROUP S.A.C. — Lima, Perú

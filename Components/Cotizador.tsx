@@ -5,13 +5,9 @@ export default async function Cotizador() {
   const precios = await leerPrecios();
 
   const datos = {
-    USDT: {
-      venta: precios.USDT,
-      compra: calcularPrecioCompra("USDT", precios.USDT),
-    },
-    USDC: {
-      venta: precios.USDC,
-      compra: calcularPrecioCompra("USDC", precios.USDC),
+    USD: {
+      venta: precios.USD,
+      compra: calcularPrecioCompra("USD", precios.USD),
     },
   };
 

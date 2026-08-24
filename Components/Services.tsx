@@ -7,23 +7,23 @@ interface Service {
 const services: Service[] = [
   {
     number: "01",
-    title: "Compra y venta de USDT y USDC",
-    description: "Operaciones P2P con spreads competitivos en tiempo real para ambas stablecoins. Liquidez inmediata en soles o dólares sin complicaciones.",
+    title: "Compra y venta de dólares",
+    description: "Operaciones de cambio USD/PEN con tipo de cambio competitivo en tiempo real. Liquidez inmediata en soles o dólares sin complicaciones.",
   },
   {
     number: "02",
     title: "Dolarización empresarial",
-    description: "Protege el patrimonio de tu empresa convirtiendo soles a dólares digitales y fiat de forma ágil y transparente.",
+    description: "Protege el patrimonio de tu empresa convirtiendo soles a dólares de forma ágil y transparente.",
   },
   {
     number: "03",
-    title: "Remesas digitales",
-    description: "Soluciones para empresas que transfieren valor entre países usando la blockchain como infraestructura de liquidación.",
+    title: "Remesas y transferencias internacionales",
+    description: "Soluciones para empresas y personas que envían o reciben dólares desde el extranjero, con tiempos de liquidación rápidos.",
   },
   {
     number: "04",
     title: "Gestión de liquidez",
-    description: "Mantén tu capital siempre disponible y en el activo correcto. Equipo disponible con respuesta inmediata cuando lo necesitas.",
+    description: "Mantén tu capital siempre disponible en la moneda correcta. Equipo disponible con respuesta inmediata cuando lo necesitas.",
   },
 ];
 

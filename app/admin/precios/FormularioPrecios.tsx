@@ -3,18 +3,15 @@
 import { useActionState, useState } from "react";
 import { accionGuardarPrecios, accionLogout } from "../../../lib/acciones";
 
-const MARGEN_USDT = 0.035;
-const MARGEN_USDC = 0.05;
+const MARGEN_USD = 0.035;
 
 interface Props {
-  precioInicialUsdt: number;
-  precioInicialUsdc: number;
+  precioInicialUsd: number;
   actualizadoEn: string;
 }
 
 export default function FormularioPrecios({
-  precioInicialUsdt,
-  precioInicialUsdc,
+  precioInicialUsd,
   actualizadoEn,
 }: Props) {
   const [estado, ejecutarAccion, enProceso] = useActionState(
@@ -22,17 +19,12 @@ export default function FormularioPrecios({
     undefined
   );
 
-  const [usdtVenta, setUsdtVenta] = useState(precioInicialUsdt.toString());
-  const [usdcVenta, setUsdcVenta] = useState(precioInicialUsdc.toString());
+  const [usdVenta, setUsdVenta] = useState(precioInicialUsd.toString());
 
-  const usdtVentaNum = Number(usdtVenta);
-  const usdcVentaNum = Number(usdcVenta);
+  const usdVentaNum = Number(usdVenta);
 
-  const usdtCompra = Number.isFinite(usdtVentaNum)
-    ? (usdtVentaNum - MARGEN_USDT).toFixed(3)
-    : "—";
-  const usdcCompra = Number.isFinite(usdcVentaNum)
-    ? (usdcVentaNum - MARGEN_USDC).toFixed(3)
+  const usdCompra = Number.isFinite(usdVentaNum)
+    ? (usdVentaNum - MARGEN_USD).toFixed(3)
     : "—";
 
   return (
@@ -78,23 +70,23 @@ export default function FormularioPrecios({
           }}
         >
           <legend style={{ fontSize: "0.85rem", color: "var(--color-accent)" }}>
-            USDT
+            USD
           </legend>
           <label
-            htmlFor="usdt"
+            htmlFor="usd"
             style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}
           >
-            Precio de venta (soles por USDT)
+            Precio de venta del dólar (soles por USD)
           </label>
           <input
-            id="usdt"
-            name="usdt"
+            id="usd"
+            name="usd"
             type="number"
             step="0.001"
             min="0"
             required
-            value={usdtVenta}
-            onChange={(evento) => setUsdtVenta(evento.target.value)}
+            value={usdVenta}
+            onChange={(evento) => setUsdVenta(evento.target.value)}
             style={{
               width: "100%",
               marginTop: "0.4rem",
@@ -114,55 +106,7 @@ export default function FormularioPrecios({
               marginBottom: 0,
             }}
           >
-            Precio de compra calculado (margen 0.035): <strong>{usdtCompra}</strong>
-          </p>
-        </fieldset>
-
-        <fieldset
-          style={{
-            border: "1px solid var(--color-muted)",
-            borderRadius: "10px",
-            padding: "1rem 1.2rem",
-          }}
-        >
-          <legend style={{ fontSize: "0.85rem", color: "var(--color-accent)" }}>
-            USDC
-          </legend>
-          <label
-            htmlFor="usdc"
-            style={{ fontSize: "0.8rem", color: "var(--color-muted)" }}
-          >
-            Precio de venta (soles por USDC)
-          </label>
-          <input
-            id="usdc"
-            name="usdc"
-            type="number"
-            step="0.001"
-            min="0"
-            required
-            value={usdcVenta}
-            onChange={(evento) => setUsdcVenta(evento.target.value)}
-            style={{
-              width: "100%",
-              marginTop: "0.4rem",
-              padding: "0.6rem 0.8rem",
-              borderRadius: "8px",
-              border: "1px solid var(--color-muted)",
-              background: "transparent",
-              color: "var(--color-text)",
-              fontSize: "1.1rem",
-            }}
-          />
-          <p
-            style={{
-              fontSize: "0.85rem",
-              color: "var(--color-silver)",
-              marginTop: "0.6rem",
-              marginBottom: 0,
-            }}
-          >
-            Precio de compra calculado (margen 0.05): <strong>{usdcCompra}</strong>
+            Precio de compra calculado (margen 0.035): <strong>{usdCompra}</strong>
           </p>
         </fieldset>
 

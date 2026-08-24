@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="min-h-screen grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center px-6 md:px-16 pt-36 pb-24">
       <div>
         <p className="font-display text-xs font-medium tracking-[0.26em] text-accent uppercase mb-7">
-          Proveedor de Servicios de Activos Virtuales — Lima, Perú
+          Casa de Cambio Online de Dólares — Lima, Perú
         </p>
         <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold uppercase leading-none tracking-tight max-w-3xl mb-8">
           LIQUIDEZ<br />DIGITAL<br />
@@ -15,7 +15,7 @@ export default function Hero() {
           </span>
         </h1>
         <p className="text-lg font-light text-muted max-w-md leading-relaxed mb-10">
-          Convertimos activos digitales en dinero real. Rápido, seguro y al mejor precio del mercado.
+          Compra y vende dólares en línea. Rápido, seguro y al mejor tipo de cambio del mercado.
         </p>
         <div className="flex flex-wrap items-center gap-4 mb-8">
           <a href="#contacto" className="font-display text-xs font-semibold tracking-wide uppercase text-bg bg-gradient-to-br from-accent to-accent-light px-10 py-3.5 rounded-lg hover:opacity-85 transition-opacity">
@@ -27,7 +27,7 @@ export default function Hero() {
         </div>
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/10 border border-green-500/20">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-          <span className="font-display text-[0.56rem] font-semibold tracking-wide text-green-400 uppercase">Inscritos en la SBS (N.° 02914–2025)</span>
+          <span className="font-display text-[0.56rem] font-semibold tracking-wide text-green-400 uppercase">Regulados por la SBS (N.° 02914–2025)</span>
         </div>
       </div>
 

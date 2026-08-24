@@ -10,8 +10,8 @@ export default function About() {
         </h2>
         <p className="text-base text-muted leading-loose">
           <strong className="text-text font-normal">YAKU CAPITAL</strong> nace de la necesidad de operar en un
-          mercado donde la velocidad, la confianza y la precisión son todo. Somos un PSAV especializado en la
-          conversión entre criptomonedas y moneda fiat.
+          mercado donde la velocidad, la confianza y la precisión son todo. Somos una casa de cambio online
+          especializada en la compra y venta de dólares, con el mejor tipo de cambio y atención inmediata.
           <br /><br />
           En quechua, <strong className="text-text font-normal">YAKU significa agua</strong>: fluida, esencial,
           que se adapta y siempre encuentra su camino. Así operamos nosotros.

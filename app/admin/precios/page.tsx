@@ -35,8 +35,7 @@ export default async function PaginaPrecios() {
         Panel de precios — YAKU CAPITAL
       </h1>
       <FormularioPrecios
-        precioInicialUsdt={precios.USDT}
-        precioInicialUsdc={precios.USDC}
+        precioInicialUsd={precios.USD}
         actualizadoEn={precios.actualizadoEn}
       />
     </main>
