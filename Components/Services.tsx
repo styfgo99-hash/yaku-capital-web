@@ -2,6 +2,7 @@ interface Service {
   number: string;
   title: string;
   description: string;
+  proximamente?: boolean;
 }
 
 const services: Service[] = [
@@ -19,6 +20,7 @@ const services: Service[] = [
     number: "03",
     title: "Remesas y transferencias internacionales",
     description: "Soluciones para empresas y personas que envían o reciben dólares desde el extranjero, con tiempos de liquidación rápidos.",
+    proximamente: true,
   },
   {
     number: "04",
@@ -51,6 +53,11 @@ export default function Services() {
             <div className="text-sm text-muted leading-relaxed">
               {service.description}
             </div>
+            {service.proximamente && (
+              <div className="mt-4 inline-block font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
+                Próximamente
+              </div>
+            )}
           </div>
         ))}
       </div>

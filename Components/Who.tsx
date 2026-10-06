@@ -1,6 +1,7 @@
 interface Profile {
   title: string;
   description: string;
+  proximamente?: boolean;
 }
 
 const profiles: Profile[] = [
@@ -15,6 +16,7 @@ const profiles: Profile[] = [
   {
     title: "Remesas",
     description: "Empresas que mueven dinero entre fronteras buscando reducir costos y tiempos de liquidación significativamente.",
+    proximamente: true,
   },
   {
     title: "Corporativos",
@@ -44,6 +46,11 @@ export default function Who() {
             <div className="text-sm text-muted leading-relaxed">
               {profile.description}
             </div>
+            {profile.proximamente && (
+              <div className="mt-4 inline-block font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
+                Próximamente
+              </div>
+            )}
           </div>
         ))}
       </div>
