@@ -2,8 +2,9 @@
 
 import { useActionState, useState } from "react";
 import { accionGuardarPrecios, accionLogout } from "../../../lib/acciones";
+import { MARGENES } from "../../../config-precios";
 
-const MARGEN_USD = 0.035;
+const MARGEN_USD = MARGENES.USD;
 
 interface Props {
   precioInicialUsd: number;
@@ -106,7 +107,7 @@ export default function FormularioPrecios({
               marginBottom: 0,
             }}
           >
-            Precio de compra calculado (margen 0.035): <strong>{usdCompra}</strong>
+            Precio de compra calculado (margen {MARGEN_USD}): <strong>{usdCompra}</strong>
           </p>
         </fieldset>
 
