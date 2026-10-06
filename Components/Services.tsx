@@ -44,8 +44,15 @@ export default function Services() {
             key={service.number}
             className="bg-white/[0.03] backdrop-blur-xl border border-accent/[0.14] rounded-xl p-10 hover:border-accent/30 hover:bg-white/[0.05] transition-all"
           >
-            <div className="font-display text-[0.58rem] font-semibold tracking-[0.22em] text-accent mb-6">
-              {service.number}
+            <div className="flex items-center gap-3 mb-6">
+              <div className="font-display text-[0.58rem] font-semibold tracking-[0.22em] text-accent">
+                {service.number}
+              </div>
+              {service.proximamente && (
+                <div className="font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
+                  Próximamente
+                </div>
+              )}
             </div>
             <div className="font-display text-xl font-semibold uppercase mb-3">
               {service.title}
@@ -53,11 +60,6 @@ export default function Services() {
             <div className="text-sm text-muted leading-relaxed">
               {service.description}
             </div>
-            {service.proximamente && (
-              <div className="mt-4 inline-block font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
-                Próximamente
-              </div>
-            )}
           </div>
         ))}
       </div>

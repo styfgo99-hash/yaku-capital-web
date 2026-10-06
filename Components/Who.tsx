@@ -39,18 +39,20 @@ export default function Who() {
             key={profile.title}
             className="bg-white/[0.03] backdrop-blur-xl border border-accent/[0.14] rounded-xl p-8 hover:border-accent/30 transition-all"
           >
-            <div className="w-6 h-0.5 bg-gradient-to-r from-accent to-accent-light rounded-full mb-5" />
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-6 h-0.5 bg-gradient-to-r from-accent to-accent-light rounded-full" />
+              {profile.proximamente && (
+                <div className="font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
+                  Próximamente
+                </div>
+              )}
+            </div>
             <div className="font-display text-sm font-semibold tracking-wide uppercase mb-3">
               {profile.title}
             </div>
             <div className="text-sm text-muted leading-relaxed">
               {profile.description}
             </div>
-            {profile.proximamente && (
-              <div className="mt-4 inline-block font-display text-[0.65rem] font-semibold tracking-[0.2em] uppercase text-gray-400/50">
-                Próximamente
-              </div>
-            )}
           </div>
         ))}
       </div>
